@@ -1,6 +1,6 @@
 import { Geist } from 'next/font/google';
 import './globals.css';
-import { Providers } from '@/src/lib/providers';
+import { Providers } from '@/lib/providers';
 
 const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 
