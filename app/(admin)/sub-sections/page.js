@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -143,8 +143,8 @@ export default function SubSectionsPage() {
             {isLoading && <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>}
             {!isLoading && items.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400">No sub-sections yet</td></tr>}
             {items.map((item) => (
-              <>
-                <tr key={item.id} className="hover:bg-gray-50">
+              <React.Fragment key={item.id}>
+                <tr className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900">{item.name}</td>
                   <td className="px-4 py-3 text-gray-500 font-mono text-xs">{item.slug}</td>
                   <td className="px-4 py-3 text-gray-600">{taMap[item.therapyAreaId] ?? item.therapyAreaId}</td>
@@ -168,7 +168,7 @@ export default function SubSectionsPage() {
                     </td>
                   </tr>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

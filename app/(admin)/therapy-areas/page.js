@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -10,13 +10,31 @@ function TherapyAreaForm({ defaultValues, onSubmit, onCancel, loading }) {
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <input
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            {...register('name', { required: 'Required' })}
+          />
+          {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Code (e.g., IC)</label>
+          <input
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            {...register('code', { required: 'Required' })}
+          />
+          {errors.code && <p className="mt-1 text-xs text-red-600">{errors.code.message}</p>}
+        </div>
+      </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <label className="block text-sm font-medium text-gray-700">Slug</label>
         <input
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          {...register('name', { required: 'Required' })}
+          {...register('slug', { required: 'Required' })}
         />
-        {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
+        {errors.slug && <p className="mt-1 text-xs text-red-600">{errors.slug.message}</p>}
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Description</label>
@@ -111,21 +129,25 @@ export default function TherapyAreasPage() {
           <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Name</th>
+              <th className="px-4 py-3 text-left font-medium text-gray-600">Code</th>
+              <th className="px-4 py-3 text-left font-medium text-gray-600">Slug</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Description</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {isLoading && (
-              <tr><td colSpan={3} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>
+              <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>
             )}
             {!isLoading && items.length === 0 && (
-              <tr><td colSpan={3} className="px-4 py-8 text-center text-gray-400">No therapy areas yet</td></tr>
+              <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">No therapy areas yet</td></tr>
             )}
             {items.map((item) => (
-              <>
-                <tr key={item.id} className="hover:bg-gray-50">
+              <React.Fragment key={item.id}>
+                <tr className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900">{item.name}</td>
+                  <td className="px-4 py-3 font-medium text-gray-600">{item.code}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-gray-500">{item.slug}</td>
                   <td className="px-4 py-3 text-gray-600">{item.description ?? '—'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
@@ -143,9 +165,9 @@ export default function TherapyAreasPage() {
                 </tr>
                 {editItem?.id === item.id && (
                   <tr key={`edit-${item.id}`}>
-                    <td colSpan={3} className="bg-blue-50 px-4 py-4">
+                    <td colSpan={5} className="bg-blue-50 px-4 py-4">
                       <TherapyAreaForm
-                        defaultValues={{ name: item.name, description: item.description, iconUrl: item.iconUrl }}
+                        defaultValues={{ name: item.name, code: item.code, slug: item.slug, description: item.description, iconUrl: item.iconUrl }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}
@@ -153,7 +175,7 @@ export default function TherapyAreasPage() {
                     </td>
                   </tr>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </tbody>
         </table>
