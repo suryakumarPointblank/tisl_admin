@@ -14,7 +14,7 @@ import AdminWebinarsApi from '@/lib/api-client/src/api/AdminWebinarsApi';
 
 // ─── Axios instance (used for auth refresh flow) ────────────────────────────
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
   timeout: 60000,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -63,7 +63,7 @@ axiosInstance.interceptors.response.use(
         if (!refreshToken) throw new Error('No refresh token');
 
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/v1/auth/refresh`,
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/v1/auth/refresh`,
           { refreshToken },
         );
 
@@ -94,7 +94,7 @@ axiosInstance.interceptors.response.use(
 );
 
 // ─── Generated API client ────────────────────────────────────────────────────
-const apiClient = new ApiClient(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const apiClient = new ApiClient(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000');
 
 const _origCallApi = apiClient.callApi.bind(apiClient);
 apiClient.callApi = function (...args) {

@@ -20,7 +20,14 @@ export default function LoginPage() {
       const response = await api.auth.authControllerLoginV1(data);
       const result = response.body;
 
-      if (result.user?.role !== 'ADMIN') {
+      // Role lives inside the JWT payload, not in the response body
+      let role = null;
+      try {
+        const payload = JSON.parse(atob(result.access_token.split('.')[1]));
+        role = payload.role;
+      } catch {}
+
+      if (role !== 'ADMIN') {
         setError('Access denied. Admin account required.');
         return;
       }
