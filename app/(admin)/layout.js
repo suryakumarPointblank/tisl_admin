@@ -14,6 +14,12 @@ import {
   Heart,
   Video,
   LogOut,
+  MessageSquare,
+  ClipboardList,
+  Presentation,
+  CalendarCheck,
+  GraduationCap,
+  UserPlus,
 } from 'lucide-react';
 
 const NAV = [
@@ -27,6 +33,12 @@ const NAV = [
   { href: '/conditions', label: 'Conditions', icon: Activity },
   { href: '/patient-content', label: 'Patient Content', icon: Heart },
   { href: '/webinars', label: 'Webinars', icon: Video },
+  { href: '/contact-inquiries', label: 'Inquiries', icon: MessageSquare },
+  { href: '/case-submissions', label: 'Case Submissions', icon: ClipboardList },
+  { href: '/slide-deck-requests', label: 'Slide Decks', icon: Presentation },
+  { href: '/webinar-registrations', label: 'Webinar Regs', icon: CalendarCheck },
+  { href: '/training-programs', label: 'Training Programs', icon: GraduationCap },
+  { href: '/training-program-registrations', label: 'TP Registrations', icon: UserPlus },
 ];
 
 export default function AdminLayout({ children }) {

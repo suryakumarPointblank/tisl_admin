@@ -6,7 +6,11 @@ import { Pencil, Trash2, Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { api } from '@/lib/api-config';
 
-const CONTENT_TYPES = ['VIDEO', 'ARTICLE', 'PODCAST', 'QUIZ', 'INFOGRAPHIC'];
+const CONTENT_TYPES = [
+  'WEBINAR_VIDEO', 'PROCEDURE_DEMO', 'CASE_STUDY', 'INFOGRAPHIC',
+  'SLIDE_PRESENTATION', 'EXPERT_OPINION', 'ARTICLE_SUMMARY', 'PODCAST',
+  'SHORT_VIDEO', 'LATEST_UPDATE', 'SLIDESHOW',
+];
 
 function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, faculty }) {
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
