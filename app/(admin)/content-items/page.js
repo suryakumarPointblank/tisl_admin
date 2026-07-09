@@ -16,6 +16,7 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
   const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues });
   const contentType = watch('contentType');
   const isArticle = contentType === 'ARTICLE_SUMMARY';
+  const isSlide = contentType === 'SLIDE_PRESENTATION';
 
   function handleFormSubmit(raw) {
     const dto = { ...raw };
@@ -26,8 +27,19 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
         articleUrl: raw.articleUrl || undefined,
       };
     }
+    if (isSlide) {
+      dto.contentData = {
+        ...(defaultValues?.contentData ?? {}),
+        totalSlides: raw.slideTotalSlides ? Number(raw.slideTotalSlides) : undefined,
+        fileSizeMb: raw.slideFileSizeMb ? Number(raw.slideFileSizeMb) : undefined,
+        format: raw.slideFormat || undefined,
+      };
+    }
     delete dto.articleImageUrl;
     delete dto.articleUrl;
+    delete dto.slideTotalSlides;
+    delete dto.slideFileSizeMb;
+    delete dto.slideFormat;
     onSubmit(dto);
   }
 
@@ -130,6 +142,41 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
               defaultValue={defaultValues?.contentData?.articleUrl ?? ''}
               {...register('articleUrl')}
             />
+          </div>
+        </div>
+      )}
+      {isSlide && (
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Slide Details</p>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Total Slides</label>
+              <input
+                type="number"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                defaultValue={defaultValues?.contentData?.totalSlides ?? ''}
+                {...register('slideTotalSlides')}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">File Size (MB)</label>
+              <input
+                type="number"
+                step="0.1"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                defaultValue={defaultValues?.contentData?.fileSizeMb ?? ''}
+                {...register('slideFileSizeMb')}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Format</label>
+              <input
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                placeholder="PDF"
+                defaultValue={defaultValues?.contentData?.format ?? 'PDF'}
+                {...register('slideFormat')}
+              />
+            </div>
           </div>
         </div>
       )}
@@ -247,7 +294,7 @@ export default function ContentItemsPage() {
                   <tr key={`edit-${item.id}`}>
                     <td colSpan={5} className="bg-blue-50 px-4 py-4">
                       <ContentItemForm
-                        defaultValues={{ topicId: item.topicId, facultyId: item.facultyId, contentType: item.contentType, title: item.title, description: item.description, durationMinutes: item.durationMinutes, fileUrl: item.fileUrl, thumbnailUrl: item.thumbnailUrl, contentData: item.contentData, articleImageUrl: item.contentData?.imageUrl ?? '', articleUrl: item.contentData?.articleUrl ?? '' }}
+                        defaultValues={{ topicId: item.topicId, facultyId: item.facultyId, contentType: item.contentType, title: item.title, description: item.description, durationMinutes: item.durationMinutes, fileUrl: item.fileUrl, thumbnailUrl: item.thumbnailUrl, contentData: item.contentData, articleImageUrl: item.contentData?.imageUrl ?? '', articleUrl: item.contentData?.articleUrl ?? '', slideTotalSlides: item.contentData?.totalSlides ?? '', slideFileSizeMb: item.contentData?.fileSizeMb ?? '', slideFormat: item.contentData?.format ?? '' }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}

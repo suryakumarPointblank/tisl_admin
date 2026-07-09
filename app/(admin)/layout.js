@@ -21,12 +21,15 @@ import {
   GraduationCap,
   UserPlus,
   BarChart2,
+  Tag,
+  Settings,
 } from 'lucide-react';
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/users', label: 'Users', icon: Users },
   { href: '/therapy-areas', label: 'Therapy Areas', icon: Stethoscope },
+  { href: '/specialities', label: 'Specialities', icon: Tag },
   { href: '/sub-sections', label: 'Sub-sections', icon: BookOpen },
   { href: '/topics', label: 'Topics', icon: FileText },
   { href: '/content-items', label: 'Content Items', icon: FileText },
@@ -41,6 +44,7 @@ const NAV = [
   { href: '/webinar-registrations', label: 'Webinar Regs', icon: CalendarCheck },
   { href: '/training-programs', label: 'Training Programs', icon: GraduationCap },
   { href: '/training-program-registrations', label: 'TP Registrations', icon: UserPlus },
+  { href: '/site-config', label: 'Site Config', icon: Settings },
 ];
 
 export default function AdminLayout({ children }) {
