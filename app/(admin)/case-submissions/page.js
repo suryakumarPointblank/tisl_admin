@@ -83,7 +83,7 @@ export default function CaseSubmissionsPage() {
                   onClick={() => toggleRow(item.id)}
                 >
                   <td className="px-4 py-3 font-medium text-gray-900">{item.submitterName ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.email ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.submitterEmail ?? '—'}</td>
                   <td className="px-4 py-3 text-gray-600 max-w-xs truncate">{item.title ?? '—'}</td>
                   <td className="px-4 py-3 text-gray-600">{item.therapyArea ?? '—'}</td>
                   <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
@@ -127,11 +127,11 @@ export default function CaseSubmissionsPage() {
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">Institution</dt>
-                          <dd className="text-gray-900">{item.institution ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.submitterInstitution ?? '—'}</dd>
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">City</dt>
-                          <dd className="text-gray-900">{item.city ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.submitterCity ?? '—'}</dd>
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">Attribution</dt>

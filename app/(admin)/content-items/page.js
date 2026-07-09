@@ -13,9 +13,26 @@ const CONTENT_TYPES = [
 ];
 
 function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, faculty }) {
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues });
+  const contentType = watch('contentType');
+  const isArticle = contentType === 'ARTICLE_SUMMARY';
+
+  function handleFormSubmit(raw) {
+    const dto = { ...raw };
+    if (isArticle) {
+      dto.contentData = {
+        ...(defaultValues?.contentData ?? {}),
+        imageUrl: raw.articleImageUrl || undefined,
+        articleUrl: raw.articleUrl || undefined,
+      };
+    }
+    delete dto.articleImageUrl;
+    delete dto.articleUrl;
+    onSubmit(dto);
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-sm font-medium text-gray-700">Topic</label>
@@ -94,6 +111,28 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
           />
         </div>
       </div>
+      {isArticle && (
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Cover Image URL</label>
+            <input
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              placeholder="https://…"
+              defaultValue={defaultValues?.contentData?.imageUrl ?? ''}
+              {...register('articleImageUrl')}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Full Article Link</label>
+            <input
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              placeholder="https://…"
+              defaultValue={defaultValues?.contentData?.articleUrl ?? ''}
+              {...register('articleUrl')}
+            />
+          </div>
+        </div>
+      )}
       <div className="flex gap-2 pt-1">
         <button type="submit" disabled={loading} className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60">
           {loading ? 'Saving…' : 'Save'}
@@ -208,7 +247,7 @@ export default function ContentItemsPage() {
                   <tr key={`edit-${item.id}`}>
                     <td colSpan={5} className="bg-blue-50 px-4 py-4">
                       <ContentItemForm
-                        defaultValues={{ topicId: item.topicId, facultyId: item.facultyId, contentType: item.contentType, title: item.title, description: item.description, durationMinutes: item.durationMinutes, fileUrl: item.fileUrl, thumbnailUrl: item.thumbnailUrl }}
+                        defaultValues={{ topicId: item.topicId, facultyId: item.facultyId, contentType: item.contentType, title: item.title, description: item.description, durationMinutes: item.durationMinutes, fileUrl: item.fileUrl, thumbnailUrl: item.thumbnailUrl, contentData: item.contentData, articleImageUrl: item.contentData?.imageUrl ?? '', articleUrl: item.contentData?.articleUrl ?? '' }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}
