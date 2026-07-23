@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { api } from '@/lib/api-config';
+import FileUploadInput from '@/components/FileUploadInput';
 
 const CONTENT_TYPES = [
   'WEBINAR_VIDEO', 'PROCEDURE_DEMO', 'CASE_STUDY', 'INFOGRAPHIC',
@@ -13,7 +14,7 @@ const CONTENT_TYPES = [
 ];
 
 function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, faculty }) {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, watch, control, formState: { errors } } = useForm({ defaultValues });
   const contentType = watch('contentType');
   const isArticle = contentType === 'ARTICLE_SUMMARY';
   const isSlide = contentType === 'SLIDE_PRESENTATION';
@@ -108,32 +109,54 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">File URL</label>
-          <input
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            {...register('fileUrl')}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Thumbnail URL</label>
-          <input
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            {...register('thumbnailUrl')}
-          />
-        </div>
+        <Controller
+          name="fileUrl"
+          control={control}
+          defaultValue={defaultValues?.fileUrl ?? ''}
+          render={({ field }) => (
+            <FileUploadInput
+              label="File"
+              value={field.value}
+              onChange={field.onChange}
+              folder="content"
+              accept="video/mp4,video/webm,audio/mpeg,audio/mp4,application/pdf,image/*"
+              previewImage={false}
+            />
+          )}
+        />
+        <Controller
+          name="thumbnailUrl"
+          control={control}
+          defaultValue={defaultValues?.thumbnailUrl ?? ''}
+          render={({ field }) => (
+            <FileUploadInput
+              label="Thumbnail"
+              value={field.value}
+              onChange={field.onChange}
+              folder="content/thumbnails"
+              accept="image/*"
+              previewImage
+            />
+          )}
+        />
       </div>
       {isArticle && (
         <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Cover Image URL</label>
-            <input
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-              placeholder="https://…"
-              defaultValue={defaultValues?.contentData?.imageUrl ?? ''}
-              {...register('articleImageUrl')}
-            />
-          </div>
+          <Controller
+            name="articleImageUrl"
+            control={control}
+            defaultValue={defaultValues?.contentData?.imageUrl ?? ''}
+            render={({ field }) => (
+              <FileUploadInput
+                label="Cover Image"
+                value={field.value}
+                onChange={field.onChange}
+                folder="content/images"
+                accept="image/*"
+                previewImage
+              />
+            )}
+          />
           <div>
             <label className="block text-sm font-medium text-gray-700">Full Article Link</label>
             <input

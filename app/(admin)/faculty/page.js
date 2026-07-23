@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { api } from '@/lib/api-config';
+import FileUploadInput from '@/components/FileUploadInput';
 
 function FacultyForm({ defaultValues, onSubmit, onCancel, loading }) {
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, control, formState: { errors } } = useForm({ defaultValues });
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
       <div className="grid grid-cols-2 gap-3">
@@ -50,10 +51,20 @@ function FacultyForm({ defaultValues, onSubmit, onCancel, loading }) {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Photo URL</label>
-        <input
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          {...register('photoUrl')}
+        <Controller
+          name="photoUrl"
+          control={control}
+          defaultValue={defaultValues?.photoUrl ?? ''}
+          render={({ field }) => (
+            <FileUploadInput
+              label="Photo"
+              value={field.value}
+              onChange={field.onChange}
+              folder="faculty"
+              accept="image/*"
+              previewImage
+            />
+          )}
         />
       </div>
       <div className="flex gap-2 pt-1">
