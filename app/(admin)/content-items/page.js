@@ -8,16 +8,16 @@ import { api } from '@/lib/api-config';
 import FileUploadInput from '@/components/FileUploadInput';
 
 const CONTENT_TYPES = [
-  'WEBINAR_VIDEO', 'PROCEDURE_DEMO', 'CASE_STUDY', 'INFOGRAPHIC',
-  'SLIDE_PRESENTATION', 'EXPERT_OPINION', 'ARTICLE_SUMMARY', 'PODCAST',
-  'SHORT_VIDEO', 'LATEST_UPDATE', 'SLIDESHOW',
+  'RECORDED_WEBINAR', 'VIDEO', 'CASE_REPORT', 'INFOGRAPHIC',
+  'SLIDE_DECK', 'EXPERT_OPINION', 'ARTICLE_SUMMARY', 'PODCAST',
+  'IN_SHORT', 'LATEST_UPDATE',
 ];
 
 function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, faculty }) {
   const { register, handleSubmit, watch, control, formState: { errors } } = useForm({ defaultValues });
   const contentType = watch('contentType');
   const isArticle = contentType === 'ARTICLE_SUMMARY';
-  const isSlide = contentType === 'SLIDE_PRESENTATION';
+  const isSlide = contentType === 'SLIDE_DECK';
 
   function handleFormSubmit(raw) {
     const dto = { ...raw };
