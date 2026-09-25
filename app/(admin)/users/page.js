@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-config';
+import MutationError from '@/components/MutationError';
 
 const STATUS_LABELS = {
   ACTIVE: 'Active',
@@ -53,6 +54,7 @@ export default function UsersPage() {
 
       {error && <p className="text-sm text-red-600">Failed to load users: {error.message}</p>}
 
+      <MutationError errors={[updateStatus.error]} />
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <table className="w-full text-sm">
           <thead className="border-b border-gray-200 bg-gray-50">

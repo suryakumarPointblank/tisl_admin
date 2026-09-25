@@ -6,6 +6,7 @@ import { Pencil, Trash2, Plus } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { api } from '@/lib/api-config';
 import FileUploadInput from '@/components/FileUploadInput';
+import MutationError from '@/components/MutationError';
 
 const CONTENT_TYPES = [
   'RECORDED_WEBINAR', 'VIDEO', 'CASE_REPORT', 'INFOGRAPHIC',
@@ -276,6 +277,7 @@ export default function ContentItemsPage() {
 
       {error && <p className="text-sm text-red-600">Failed to load: {error.message}</p>}
 
+      <MutationError errors={[create.error, update.error, remove.error]} />
       {showCreate && (
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold text-gray-800">New Content Item</h2>

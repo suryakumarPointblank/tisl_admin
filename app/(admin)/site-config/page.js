@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash2, Plus } from 'lucide-react';
 import { axiosInstance } from '@/lib/api-config';
+import MutationError from '@/components/MutationError';
 
 function SiteConfigForm({ defaultValues, onSubmit, onCancel, loading }) {
   const [key, setKey] = useState(defaultValues?.key ?? '');
@@ -99,6 +100,7 @@ export default function SiteConfigPage() {
 
       {error && <p className="text-sm text-red-600">Failed to load: {error.message}</p>}
 
+      <MutationError errors={[upsert.error, remove.error]} />
       {showCreate && (
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold text-gray-800">New Config Entry</h2>

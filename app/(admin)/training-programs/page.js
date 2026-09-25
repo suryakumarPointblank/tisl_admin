@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus, ChevronDown, ChevronRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { axiosInstance } from '@/lib/api-config';
+import MutationError from '@/components/MutationError';
 
 const BATCH_STATUS_OPTIONS = ['OPEN', 'FULLY_BOOKED', 'COMPLETED', 'CANCELLED'];
 
@@ -287,6 +288,7 @@ function ProgramCard({ program, onEdit, onDelete, queryClient }) {
 
       {expanded && (
         <div className="border-t border-gray-100 px-5 pb-5">
+          <MutationError errors={[createBatch.error, updateBatch.error, deleteBatch.error]} />
           {batches.length > 0 ? (
             <table className="w-full text-sm mt-3">
               <thead>
@@ -435,6 +437,7 @@ export default function TrainingProgramsPage() {
 
       {error && <p className="text-sm text-red-600">Failed to load: {error.message}</p>}
 
+      <MutationError errors={[create.error, update.error, remove.error]} />
       {showCreate && (
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold text-gray-800">New Training Program</h2>

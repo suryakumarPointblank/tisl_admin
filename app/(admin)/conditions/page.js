@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { api } from '@/lib/api-config';
+import MutationError from '@/components/MutationError';
 
 function ConditionForm({ defaultValues, onSubmit, onCancel, loading }) {
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
@@ -107,6 +108,7 @@ export default function ConditionsPage() {
 
       {error && <p className="text-sm text-red-600">Failed to load: {error.message}</p>}
 
+      <MutationError errors={[create.error, update.error, remove.error]} />
       {showCreate && (
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold text-gray-800">New Condition</h2>
