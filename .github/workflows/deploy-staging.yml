@@ -32,7 +32,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE }}
           build-args: |
-            NEXT_PUBLIC_API_URL=http://10.17.71.2:8093
+            NEXT_PUBLIC_API_URL=https://staging-api.terumoindiaskilllab.com
 
   deploy:
     needs: build
