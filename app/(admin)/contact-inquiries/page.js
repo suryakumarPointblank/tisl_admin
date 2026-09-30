@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '@/lib/api-config';
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -67,21 +67,21 @@ export default function ContactInquiriesPage() {
                   className="cursor-pointer hover:bg-gray-50"
                   onClick={() => toggleRow(item.id)}
                 >
-                  <td className="px-4 py-3 font-medium text-gray-900">{item.name ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.email ?? '—'}</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">{item.name ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.email ?? '-'}</td>
                   <td className="px-4 py-3 text-gray-600 max-w-xs">
                     {item.message
                       ? item.message.length > 80
                         ? item.message.slice(0, 80) + '…'
                         : item.message
-                      : '—'}
+                      : '-'}
                   </td>
                   <td className="px-4 py-3">
                     {item.source ? (
                       <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700">
                         {item.source}
                       </span>
-                    ) : '—'}
+                    ) : '-'}
                   </td>
                   <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                     {formatDate(item.createdAt)}
@@ -90,7 +90,7 @@ export default function ContactInquiriesPage() {
                 {expandedId === item.id && (
                   <tr key={`expand-${item.id}`}>
                     <td colSpan={5} className="bg-gray-50 px-6 py-4">
-                      <p className="text-sm text-gray-700 whitespace-pre-wrap">{item.message ?? '—'}</p>
+                      <p className="text-sm text-gray-700 whitespace-pre-wrap">{item.message ?? '-'}</p>
                     </td>
                   </tr>
                 )}

@@ -14,7 +14,7 @@ const STATUS_STYLES = {
 const STATUS_OPTIONS = ['PENDING', 'CONFIRMED', 'CANCELLED', 'WAITLISTED'];
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -76,17 +76,17 @@ export default function TrainingProgramRegistrationsPage() {
             {items.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-mono text-xs text-gray-500">
-                  {item.referenceNumber ?? item.id?.slice(0, 8) ?? '—'}
+                  {item.referenceNumber ?? item.id?.slice(0, 8) ?? '-'}
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900">{item.name ?? '—'}</td>
-                <td className="px-4 py-3 text-gray-600">{item.email ?? '—'}</td>
+                <td className="px-4 py-3 font-medium text-gray-900">{item.name ?? '-'}</td>
+                <td className="px-4 py-3 text-gray-600">{item.email ?? '-'}</td>
                 <td className="px-4 py-3 text-gray-600 max-w-xs truncate">
-                  {item.program?.title ?? '—'}
+                  {item.program?.title ?? '-'}
                 </td>
                 <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                   {item.batch
                     ? `${formatDate(item.batch.startDate)} – ${formatDate(item.batch.endDate)}`
-                    : '—'}
+                    : '-'}
                 </td>
                 <td className="px-4 py-3">
                   <select

@@ -181,7 +181,7 @@ export default function PatientContentPage() {
               <>
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900 max-w-xs truncate">{item.title}</td>
-                  <td className="px-4 py-3 text-gray-600">{conditionMap[item.conditionId] ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{conditionMap[item.conditionId] ?? '-'}</td>
                   <td className="px-4 py-3 text-gray-600">{item.journeyStage}</td>
                   <td className="px-4 py-3">
                     <span className="inline-flex rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700">{item.contentType}</span>

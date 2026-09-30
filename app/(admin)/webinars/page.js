@@ -79,7 +79,7 @@ function WebinarForm({ defaultValues, onSubmit, onCancel, loading, therapyAreas 
 }
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
@@ -161,9 +161,9 @@ export default function WebinarsPage() {
               <>
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900 max-w-xs truncate">{item.title}</td>
-                  <td className="px-4 py-3 text-gray-600">{taMap[item.therapyAreaId] ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{taMap[item.therapyAreaId] ?? '-'}</td>
                   <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{formatDate(item.scheduledAt)}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.durationMinutes ? `${item.durationMinutes} min` : '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.durationMinutes ? `${item.durationMinutes} min` : '-'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setEditItem(item)} className="text-gray-400 hover:text-blue-600"><Pencil size={14} /></button>

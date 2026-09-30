@@ -6,7 +6,7 @@ const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 
 export const metadata = {
   title: 'TISL Admin',
-  description: 'Terumo India Skill Lab — Admin Dashboard',
+  description: 'Terumo India Skill Lab - Admin Dashboard',
 };
 
 export default function RootLayout({ children }) {

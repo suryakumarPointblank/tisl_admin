@@ -10,7 +10,7 @@ function StatCard({ label, value, icon: Icon, color }) {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-gray-500">{label}</p>
-          <p className="mt-1 text-3xl font-semibold text-gray-900">{value ?? '—'}</p>
+          <p className="mt-1 text-3xl font-semibold text-gray-900">{value ?? '-'}</p>
         </div>
         <span className={`rounded-lg p-2 ${color}`}>
           <Icon size={20} />

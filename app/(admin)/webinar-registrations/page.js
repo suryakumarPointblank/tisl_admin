@@ -10,7 +10,7 @@ const STATUS_STYLES = {
 };
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -61,16 +61,16 @@ export default function WebinarRegistrationsPage() {
             )}
             {items.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium text-gray-900">{item.name ?? '—'}</td>
-                <td className="px-4 py-3 text-gray-600">{item.email ?? '—'}</td>
-                <td className="px-4 py-3 text-gray-600">{item.hospital ?? '—'}</td>
+                <td className="px-4 py-3 font-medium text-gray-900">{item.name ?? '-'}</td>
+                <td className="px-4 py-3 text-gray-600">{item.email ?? '-'}</td>
+                <td className="px-4 py-3 text-gray-600">{item.hospital ?? '-'}</td>
                 <td className="px-4 py-3 text-gray-600 max-w-xs truncate">
-                  {item.webinar?.title ?? '—'}
+                  {item.webinar?.title ?? '-'}
                 </td>
-                <td className="px-4 py-3 text-gray-600">{item.attendancePreference ?? '—'}</td>
+                <td className="px-4 py-3 text-gray-600">{item.attendancePreference ?? '-'}</td>
                 <td className="px-4 py-3">
                   <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[item.status] ?? 'bg-gray-100 text-gray-700'}`}>
-                    {item.status ?? '—'}
+                    {item.status ?? '-'}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-gray-600 whitespace-nowrap">

@@ -148,9 +148,9 @@ export default function FacultyPage() {
               <>
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900">{item.name}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.designation ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.hospital ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.city ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.designation ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.hospital ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.city ?? '-'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setEditItem(item)} className="text-gray-400 hover:text-blue-600"><Pencil size={14} /></button>

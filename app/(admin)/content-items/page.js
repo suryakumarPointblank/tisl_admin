@@ -306,8 +306,8 @@ export default function ContentItemsPage() {
                   <td className="px-4 py-3">
                     <span className="inline-flex rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">{item.contentType}</span>
                   </td>
-                  <td className="px-4 py-3 text-gray-600">{topicMap[item.topicId] ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.facultyId ? (facultyMap[item.facultyId] ?? '—') : '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{topicMap[item.topicId] ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.facultyId ? (facultyMap[item.facultyId] ?? '-') : '-'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setEditItem(item)} className="text-gray-400 hover:text-blue-600"><Pencil size={14} /></button>

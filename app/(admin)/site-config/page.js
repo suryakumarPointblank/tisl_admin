@@ -134,7 +134,7 @@ export default function SiteConfigPage() {
                 <tr className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-mono text-xs text-gray-900">{item.key}</td>
                   <td className="px-4 py-3 text-gray-700 max-w-xs truncate">{item.value}</td>
-                  <td className="px-4 py-3 text-gray-500">{item.description ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-500">{item.description ?? '-'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button

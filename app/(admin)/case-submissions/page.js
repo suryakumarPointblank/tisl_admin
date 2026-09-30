@@ -15,7 +15,7 @@ const STATUS_STYLES = {
 const STATUS_OPTIONS = ['PENDING', 'UNDER_REVIEW', 'ACCEPTED', 'REJECTED'];
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -84,10 +84,10 @@ export default function CaseSubmissionsPage() {
                   className="cursor-pointer hover:bg-gray-50"
                   onClick={() => toggleRow(item.id)}
                 >
-                  <td className="px-4 py-3 font-medium text-gray-900">{item.submitterName ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.submitterEmail ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600 max-w-xs truncate">{item.title ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.therapyArea ?? '—'}</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">{item.submitterName ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.submitterEmail ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600 max-w-xs truncate">{item.title ?? '-'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.therapyArea ?? '-'}</td>
                   <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                     <select
                       value={item.status ?? ''}
@@ -109,35 +109,35 @@ export default function CaseSubmissionsPage() {
                       <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                         <div>
                           <dt className="font-medium text-gray-600">Patient Age</dt>
-                          <dd className="text-gray-900">{item.patientAge ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.patientAge ?? '-'}</dd>
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">Patient Sex</dt>
-                          <dd className="text-gray-900">{item.patientSex ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.patientSex ?? '-'}</dd>
                         </div>
                         <div className="col-span-2">
                           <dt className="font-medium text-gray-600">Comorbidities</dt>
-                          <dd className="text-gray-900">{item.comorbidities ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.comorbidities ?? '-'}</dd>
                         </div>
                         <div className="col-span-2">
                           <dt className="font-medium text-gray-600">Clinical Challenge</dt>
-                          <dd className="text-gray-900 whitespace-pre-wrap">{item.clinicalChallenge ?? '—'}</dd>
+                          <dd className="text-gray-900 whitespace-pre-wrap">{item.clinicalChallenge ?? '-'}</dd>
                         </div>
                         <div className="col-span-2">
                           <dt className="font-medium text-gray-600">Learning Point</dt>
-                          <dd className="text-gray-900 whitespace-pre-wrap">{item.learningPoint ?? '—'}</dd>
+                          <dd className="text-gray-900 whitespace-pre-wrap">{item.learningPoint ?? '-'}</dd>
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">Institution</dt>
-                          <dd className="text-gray-900">{item.submitterInstitution ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.submitterInstitution ?? '-'}</dd>
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">City</dt>
-                          <dd className="text-gray-900">{item.submitterCity ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.submitterCity ?? '-'}</dd>
                         </div>
                         <div>
                           <dt className="font-medium text-gray-600">Attribution</dt>
-                          <dd className="text-gray-900">{item.attribution ?? '—'}</dd>
+                          <dd className="text-gray-900">{item.attribution ?? '-'}</dd>
                         </div>
                       </dl>
                     </td>

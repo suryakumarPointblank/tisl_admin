@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '@/lib/api-config';
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
@@ -40,7 +40,7 @@ export default function EngagementPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="text-xs font-medium uppercase tracking-widest text-gray-400">Most Liked</div>
           <div className="mt-2 text-sm font-semibold text-gray-900 truncate">
-            {likeStats[0]?.title ?? '—'}
+            {likeStats[0]?.title ?? '-'}
           </div>
           <div className="mt-1 text-xs text-gray-400">
             {likeStats[0] ? `${likeStats[0].likeCount} likes` : 'no data yet'}
@@ -50,7 +50,7 @@ export default function EngagementPage() {
 
       {/* Likes per content item */}
       <div>
-        <h2 className="mb-3 text-sm font-semibold text-gray-700">Content Likes — ranked by popularity</h2>
+        <h2 className="mb-3 text-sm font-semibold text-gray-700">Content Likes - ranked by popularity</h2>
         {likesError && <p className="text-sm text-red-600">Failed to load: {likesError.message}</p>}
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <table className="w-full text-sm">

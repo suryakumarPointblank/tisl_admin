@@ -134,7 +134,7 @@ export default function ConditionsPage() {
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900">{item.name}</td>
                   <td className="px-4 py-3 text-gray-500 font-mono text-xs">{item.slug}</td>
-                  <td className="px-4 py-3 text-gray-600 max-w-xs truncate">{item.description ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-600 max-w-xs truncate">{item.description ?? '-'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setEditItem(item)} className="text-gray-400 hover:text-blue-600"><Pencil size={14} /></button>

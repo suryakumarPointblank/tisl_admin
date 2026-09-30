@@ -150,7 +150,7 @@ export default function TherapyAreasPage() {
                   <td className="px-4 py-3 font-medium text-gray-900">{item.name}</td>
                   <td className="px-4 py-3 font-medium text-gray-600">{item.code}</td>
                   <td className="px-4 py-3 font-mono text-xs text-gray-500">{item.slug}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.description ?? '—'}</td>
+                  <td className="px-4 py-3 text-gray-600">{item.description ?? '-'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setEditItem(item)} className="text-gray-400 hover:text-blue-600">

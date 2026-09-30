@@ -10,7 +10,7 @@ import MutationError from '@/components/MutationError';
 const BATCH_STATUS_OPTIONS = ['OPEN', 'FULLY_BOOKED', 'COMPLETED', 'CANCELLED'];
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
@@ -310,12 +310,12 @@ function ProgramCard({ program, onEdit, onDelete, queryClient }) {
                       <td className="py-2 pr-4 text-gray-600 whitespace-nowrap">
                         {formatDate(batch.startDate)} – {formatDate(batch.endDate)}
                       </td>
-                      <td className="py-2 pr-4 text-gray-600">{batch.venue ?? '—'}</td>
-                      <td className="py-2 pr-4 text-gray-600">{batch.city ?? '—'}</td>
+                      <td className="py-2 pr-4 text-gray-600">{batch.venue ?? '-'}</td>
+                      <td className="py-2 pr-4 text-gray-600">{batch.city ?? '-'}</td>
                       <td className="py-2 pr-4 text-gray-600">
-                        {batch.seatsAvailable ?? '—'}/{batch.seatsTotal ?? '—'}
+                        {batch.seatsAvailable ?? '-'}/{batch.seatsTotal ?? '-'}
                       </td>
-                      <td className="py-2 pr-4 text-gray-600">{batch.status ?? '—'}</td>
+                      <td className="py-2 pr-4 text-gray-600">{batch.status ?? '-'}</td>
                       <td className="py-2">
                         <div className="flex gap-2">
                           <button

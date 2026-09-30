@@ -13,7 +13,7 @@ const STATUS_STYLES = {
 const STATUS_OPTIONS = ['PENDING', 'SENT', 'FAILED'];
 
 function formatDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -71,9 +71,9 @@ export default function SlideDeckRequestsPage() {
             )}
             {items.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium text-gray-900">{[item.firstName, item.lastName].filter(Boolean).join(' ') || '—'}</td>
-                <td className="px-4 py-3 text-gray-600">{item.email ?? '—'}</td>
-                <td className="px-4 py-3 text-gray-600">{item.speciality ?? '—'}</td>
+                <td className="px-4 py-3 font-medium text-gray-900">{[item.firstName, item.lastName].filter(Boolean).join(' ') || '-'}</td>
+                <td className="px-4 py-3 text-gray-600">{item.email ?? '-'}</td>
+                <td className="px-4 py-3 text-gray-600">{item.speciality ?? '-'}</td>
                 <td className="px-4 py-3">
                   <select
                     value={item.status ?? ''}
