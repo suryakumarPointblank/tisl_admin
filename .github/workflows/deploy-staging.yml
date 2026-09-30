@@ -1,0 +1,54 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [staging]
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/suryakumarpointblank/tisl_admin:staging
+  CONTAINER: tisl_admin_staging
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}
+          build-args: |
+            NEXT_PUBLIC_API_URL=http://10.17.71.2:8093
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_SSH_HOST }}
+          username: ${{ secrets.STAGING_SSH_USER }}
+          password: ${{ secrets.STAGING_SSH_PASSWORD }}
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker pull ${{ env.IMAGE }}
+            docker stop ${{ env.CONTAINER }} || true
+            docker rm ${{ env.CONTAINER }} || true
+            docker run -d --name ${{ env.CONTAINER }} \
+              --network tisl_staging_default \
+              -p 8095:3000 \
+              --restart unless-stopped \
+              ${{ env.IMAGE }}
+            docker logout ghcr.io
+            docker image prune -f
