@@ -13,7 +13,7 @@ env:
   CONTAINER: tisl_admin_staging
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,21 +34,20 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_URL=http://10.17.71.2:8093
 
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.STAGING_SSH_HOST }}
-          username: ${{ secrets.STAGING_SSH_USER }}
-          password: ${{ secrets.STAGING_SSH_PASSWORD }}
-          script: |
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ${{ env.IMAGE }}
-            docker stop ${{ env.CONTAINER }} || true
-            docker rm ${{ env.CONTAINER }} || true
-            docker run -d --name ${{ env.CONTAINER }} \
-              --network tisl_staging_default \
-              -p 8095:3000 \
-              --restart unless-stopped \
-              ${{ env.IMAGE }}
-            docker logout ghcr.io
-            docker image prune -f
+  deploy:
+    needs: build
+    runs-on: [self-hosted, staging]
+    steps:
+      - name: Pull and run on staging server
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker pull ${{ env.IMAGE }}
+          docker stop ${{ env.CONTAINER }} || true
+          docker rm ${{ env.CONTAINER }} || true
+          docker run -d --name ${{ env.CONTAINER }} \
+            --network tisl_staging_default \
+            -p 8095:3000 \
+            --restart unless-stopped \
+            ${{ env.IMAGE }}
+          docker logout ghcr.io
+          docker image prune -f
