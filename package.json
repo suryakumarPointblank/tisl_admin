@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate-api": "openapi-generator-cli generate -i swagger-spec.json -g javascript -o ./src/lib/api-client"
+    "generate-api": "openapi-generator-cli generate -i swagger-spec.json -g javascript -o ./src/lib/api-client && node scripts/patch-api-client.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
