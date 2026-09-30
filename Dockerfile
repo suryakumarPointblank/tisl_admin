@@ -5,8 +5,10 @@ RUN npm install
 
 FROM node:20-alpine AS builder
 WORKDIR /app
+RUN apk add --no-cache openjdk17-jre
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN npm run generate-api
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN npm run build

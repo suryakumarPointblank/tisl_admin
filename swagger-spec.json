@@ -1,0 +1,2362 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/api/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered, tokens returned"
+          },
+          "409": {
+            "description": "Email or mobile already registered"
+          }
+        },
+        "summary": "Register a new HCP user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens returned"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        },
+        "summary": "Login with email and password",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/api/v1/auth/send-otp": {
+      "post": {
+        "operationId": "AuthController_sendOtp_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP sent"
+          }
+        },
+        "summary": "Send OTP to mobile number",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/api/v1/auth/login-otp": {
+      "post": {
+        "operationId": "AuthController_loginOtp_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens returned"
+          },
+          "401": {
+            "description": "Invalid OTP or mobile not registered"
+          }
+        },
+        "summary": "Login with mobile OTP",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New tokens returned"
+          },
+          "401": {
+            "description": "Invalid or expired refresh token"
+          }
+        },
+        "summary": "Refresh access token",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/api/v1/auth/me": {
+      "get": {
+        "operationId": "AuthController_getMe_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current user data"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get current authenticated user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/therapy-areas": {
+      "get": {
+        "operationId": "TherapyAreaController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "List all therapy areas",
+        "tags": [
+          "Therapy Areas"
+        ]
+      }
+    },
+    "/api/v1/therapy-areas/{slug}": {
+      "get": {
+        "operationId": "TherapyAreaController_findBySlug_v1",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get therapy area by slug",
+        "tags": [
+          "Therapy Areas"
+        ]
+      }
+    },
+    "/api/v1/admin/therapy-areas": {
+      "get": {
+        "operationId": "TherapyAreaAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all therapy areas (admin)",
+        "tags": [
+          "Admin — Therapy Areas"
+        ]
+      },
+      "post": {
+        "operationId": "TherapyAreaAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTherapyAreaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create therapy area",
+        "tags": [
+          "Admin — Therapy Areas"
+        ]
+      }
+    },
+    "/api/v1/admin/therapy-areas/{id}": {
+      "patch": {
+        "operationId": "TherapyAreaAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTherapyAreaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update therapy area",
+        "tags": [
+          "Admin — Therapy Areas"
+        ]
+      },
+      "delete": {
+        "operationId": "TherapyAreaAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete therapy area",
+        "tags": [
+          "Admin — Therapy Areas"
+        ]
+      }
+    },
+    "/api/v1/api/v1/sub-sections": {
+      "get": {
+        "operationId": "SubSectionController_findByTherapyArea_v1",
+        "parameters": [
+          {
+            "name": "therapyAreaId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get sub-sections by therapy area",
+        "tags": [
+          "Sub Sections"
+        ]
+      }
+    },
+    "/api/v1/api/v1/sub-sections/{slug}": {
+      "get": {
+        "operationId": "SubSectionController_findBySlug_v1",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "coronary-interventions",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get sub-section by slug",
+        "tags": [
+          "Sub Sections"
+        ]
+      }
+    },
+    "/api/v1/admin/sub-sections": {
+      "get": {
+        "operationId": "SubSectionAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all sub-sections (admin)",
+        "tags": [
+          "Admin — Sub Sections"
+        ]
+      },
+      "post": {
+        "operationId": "SubSectionAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubSectionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create sub-section",
+        "tags": [
+          "Admin — Sub Sections"
+        ]
+      }
+    },
+    "/api/v1/admin/sub-sections/{id}": {
+      "patch": {
+        "operationId": "SubSectionAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubSectionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update sub-section",
+        "tags": [
+          "Admin — Sub Sections"
+        ]
+      },
+      "delete": {
+        "operationId": "SubSectionAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete sub-section",
+        "tags": [
+          "Admin — Sub Sections"
+        ]
+      }
+    },
+    "/api/v1/api/v1/topics": {
+      "get": {
+        "operationId": "TopicController_findBySubSection_v1",
+        "parameters": [
+          {
+            "name": "subSectionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get topics by sub-section",
+        "tags": [
+          "Topics"
+        ]
+      }
+    },
+    "/api/v1/api/v1/topics/{slug}": {
+      "get": {
+        "operationId": "TopicController_findBySlug_v1",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "ptca-techniques",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get topic by slug",
+        "tags": [
+          "Topics"
+        ]
+      }
+    },
+    "/api/v1/admin/topics": {
+      "get": {
+        "operationId": "TopicAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all topics (admin)",
+        "tags": [
+          "Admin — Topics"
+        ]
+      },
+      "post": {
+        "operationId": "TopicAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTopicDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create topic",
+        "tags": [
+          "Admin — Topics"
+        ]
+      }
+    },
+    "/api/v1/admin/topics/{id}": {
+      "patch": {
+        "operationId": "TopicAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTopicDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update topic",
+        "tags": [
+          "Admin — Topics"
+        ]
+      },
+      "delete": {
+        "operationId": "TopicAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete topic",
+        "tags": [
+          "Admin — Topics"
+        ]
+      }
+    },
+    "/api/v1/api/v1/content-items": {
+      "get": {
+        "operationId": "ContentItemController_findByTopic_v1",
+        "parameters": [
+          {
+            "name": "topicId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contentType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get content items by topic",
+        "tags": [
+          "Content Items"
+        ]
+      }
+    },
+    "/api/v1/api/v1/content-items/{id}": {
+      "get": {
+        "operationId": "ContentItemController_findById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get content item by id",
+        "tags": [
+          "Content Items"
+        ]
+      }
+    },
+    "/api/v1/api/v1/content-items/{id}/view": {
+      "post": {
+        "operationId": "ContentItemController_recordView_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Record a content item view",
+        "tags": [
+          "Content Items"
+        ]
+      }
+    },
+    "/api/v1/admin/content-items": {
+      "get": {
+        "operationId": "ContentItemAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all content items (admin)",
+        "tags": [
+          "Admin â€” Content Items"
+        ]
+      },
+      "post": {
+        "operationId": "ContentItemAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContentItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create content item",
+        "tags": [
+          "Admin â€” Content Items"
+        ]
+      }
+    },
+    "/api/v1/admin/content-items/{id}": {
+      "patch": {
+        "operationId": "ContentItemAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateContentItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update content item",
+        "tags": [
+          "Admin â€” Content Items"
+        ]
+      },
+      "delete": {
+        "operationId": "ContentItemAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete content item",
+        "tags": [
+          "Admin â€” Content Items"
+        ]
+      }
+    },
+    "/api/v1/api/v1/content-likes/toggle": {
+      "post": {
+        "operationId": "ContentLikeController_toggleLike_v1",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Toggle like for a content item or patient content",
+        "tags": [
+          "Content Likes"
+        ]
+      }
+    },
+    "/api/v1/api/v1/content-likes/count": {
+      "get": {
+        "operationId": "ContentLikeController_getLikeCount_v1",
+        "parameters": [
+          {
+            "name": "contentItemId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientContentId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get like count for a content item or patient content",
+        "tags": [
+          "Content Likes"
+        ]
+      }
+    },
+    "/api/v1/api/v1/content-likes/mine": {
+      "get": {
+        "operationId": "ContentLikeController_getUserLikes_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get all likes for the current user",
+        "tags": [
+          "Content Likes"
+        ]
+      }
+    },
+    "/api/v1/api/v1/faculty": {
+      "get": {
+        "operationId": "FacultyController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all active faculty",
+        "tags": [
+          "Faculty"
+        ]
+      }
+    },
+    "/api/v1/api/v1/faculty/{id}": {
+      "get": {
+        "operationId": "FacultyController_findById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get faculty by id",
+        "tags": [
+          "Faculty"
+        ]
+      }
+    },
+    "/api/v1/admin/faculty": {
+      "get": {
+        "operationId": "FacultyAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all faculty (admin)",
+        "tags": [
+          "Admin — Faculty"
+        ]
+      },
+      "post": {
+        "operationId": "FacultyAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFacultyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create faculty",
+        "tags": [
+          "Admin — Faculty"
+        ]
+      }
+    },
+    "/api/v1/admin/faculty/{id}": {
+      "patch": {
+        "operationId": "FacultyAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFacultyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update faculty",
+        "tags": [
+          "Admin — Faculty"
+        ]
+      },
+      "delete": {
+        "operationId": "FacultyAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete faculty",
+        "tags": [
+          "Admin — Faculty"
+        ]
+      }
+    },
+    "/api/v1/api/v1/conditions": {
+      "get": {
+        "operationId": "ConditionController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all active conditions",
+        "tags": [
+          "Conditions"
+        ]
+      }
+    },
+    "/api/v1/api/v1/conditions/{slug}": {
+      "get": {
+        "operationId": "ConditionController_findBySlug_v1",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "coronary-artery-disease",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get condition by slug",
+        "tags": [
+          "Conditions"
+        ]
+      }
+    },
+    "/api/v1/admin/conditions": {
+      "get": {
+        "operationId": "ConditionAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all conditions (admin)",
+        "tags": [
+          "Admin — Conditions"
+        ]
+      },
+      "post": {
+        "operationId": "ConditionAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConditionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create condition",
+        "tags": [
+          "Admin — Conditions"
+        ]
+      }
+    },
+    "/api/v1/admin/conditions/{id}": {
+      "patch": {
+        "operationId": "ConditionAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateConditionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update condition",
+        "tags": [
+          "Admin — Conditions"
+        ]
+      },
+      "delete": {
+        "operationId": "ConditionAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete condition",
+        "tags": [
+          "Admin — Conditions"
+        ]
+      }
+    },
+    "/api/v1/api/v1/patient-content": {
+      "get": {
+        "operationId": "PatientContentController_findByCondition_v1",
+        "parameters": [
+          {
+            "name": "conditionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "journeyStage",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "KNOW_CONDITION",
+                "KNOW_PROCEDURE",
+                "PREPARING",
+                "PROCEDURE_DAY",
+                "RECOVERY"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get patient content by condition and optional journey stage",
+        "tags": [
+          "Patient Content"
+        ]
+      }
+    },
+    "/api/v1/api/v1/patient-content/{id}": {
+      "get": {
+        "operationId": "PatientContentController_findById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get patient content by id",
+        "tags": [
+          "Patient Content"
+        ]
+      }
+    },
+    "/api/v1/admin/patient-content": {
+      "get": {
+        "operationId": "PatientContentAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all patient content (admin)",
+        "tags": [
+          "Admin — Patient Content"
+        ]
+      },
+      "post": {
+        "operationId": "PatientContentAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create patient content",
+        "tags": [
+          "Admin — Patient Content"
+        ]
+      }
+    },
+    "/api/v1/admin/patient-content/{id}": {
+      "patch": {
+        "operationId": "PatientContentAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update patient content",
+        "tags": [
+          "Admin — Patient Content"
+        ]
+      },
+      "delete": {
+        "operationId": "PatientContentAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete patient content",
+        "tags": [
+          "Admin — Patient Content"
+        ]
+      }
+    },
+    "/api/v1/api/v1/webinars/upcoming": {
+      "get": {
+        "operationId": "WebinarController_findUpcoming_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all upcoming webinars",
+        "tags": [
+          "Webinars"
+        ]
+      }
+    },
+    "/api/v1/api/v1/webinars": {
+      "get": {
+        "operationId": "WebinarController_findByTherapyArea_v1",
+        "parameters": [
+          {
+            "name": "therapyAreaId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get webinars, optionally filtered by therapy area",
+        "tags": [
+          "Webinars"
+        ]
+      }
+    },
+    "/api/v1/api/v1/webinars/{id}": {
+      "get": {
+        "operationId": "WebinarController_findById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get webinar by id",
+        "tags": [
+          "Webinars"
+        ]
+      }
+    },
+    "/api/v1/admin/webinars": {
+      "get": {
+        "operationId": "WebinarAdminController_findAll_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all webinars (admin)",
+        "tags": [
+          "Admin — Webinars"
+        ]
+      },
+      "post": {
+        "operationId": "WebinarAdminController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWebinarDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create webinar",
+        "tags": [
+          "Admin — Webinars"
+        ]
+      }
+    },
+    "/api/v1/admin/webinars/{id}": {
+      "patch": {
+        "operationId": "WebinarAdminController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWebinarDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update webinar",
+        "tags": [
+          "Admin — Webinars"
+        ]
+      },
+      "delete": {
+        "operationId": "WebinarAdminController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete webinar",
+        "tags": [
+          "Admin — Webinars"
+        ]
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "operationId": "UserAdminController_findAll_v1",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all HCP users",
+        "tags": [
+          "Admin — Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/stats": {
+      "get": {
+        "operationId": "UserAdminController_stats_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Dashboard user stats",
+        "tags": [
+          "Admin — Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}": {
+      "get": {
+        "operationId": "UserAdminController_findOne_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get user by id",
+        "tags": [
+          "Admin — Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}/status": {
+      "patch": {
+        "operationId": "UserAdminController_updateStatus_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update user status/role",
+        "tags": [
+          "Admin — Users"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "TISL API",
+    "description": "TISL API documentation",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "User management endpoints"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Development Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "Arjun"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Sharma"
+          },
+          "email": {
+            "type": "string",
+            "example": "arjun@aiims.edu"
+          },
+          "mobile": {
+            "type": "string",
+            "example": "+919876543210"
+          },
+          "password": {
+            "type": "string",
+            "example": "SecurePass1"
+          },
+          "pinCode": {
+            "type": "string",
+            "example": "110001"
+          },
+          "hospital": {
+            "type": "string",
+            "example": "AIIMS Delhi"
+          },
+          "profession": {
+            "type": "string",
+            "example": "Interventional Cardiologist",
+            "enum": [
+              "Interventional Cardiologist",
+              "Interventional Radiologist",
+              "Cardiac Surgeon",
+              "Vascular Surgeon",
+              "Perfusionist",
+              "Cath Lab Nurse / Technician",
+              "Other"
+            ]
+          },
+          "speciality": {
+            "type": "string",
+            "example": "Interventional Cardiology",
+            "enum": [
+              "Interventional Cardiology",
+              "Interventional Radiology",
+              "Cardiovascular Surgery",
+              "Vascular Surgery",
+              "Medication Management"
+            ]
+          },
+          "practicingSince": {
+            "type": "string",
+            "example": "2015-01-01"
+          },
+          "medicalRegNo": {
+            "type": "string",
+            "example": "MH12345"
+          },
+          "medicalRegYear": {
+            "type": "number",
+            "example": 2015
+          },
+          "consentMarketing": {
+            "type": "boolean",
+            "example": false
+          },
+          "consentTerumo": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "firstName",
+          "email",
+          "mobile",
+          "password",
+          "profession",
+          "speciality",
+          "medicalRegNo"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "arjun@aiims.edu"
+          },
+          "password": {
+            "type": "string",
+            "example": "SecurePass1"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "SendOtpDto": {
+        "type": "object",
+        "properties": {
+          "mobile": {
+            "type": "string",
+            "example": "+919876543210"
+          }
+        },
+        "required": [
+          "mobile"
+        ]
+      },
+      "LoginOtpDto": {
+        "type": "object",
+        "properties": {
+          "mobile": {
+            "type": "string",
+            "example": "+919876543210"
+          },
+          "otp": {
+            "type": "string",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "mobile",
+          "otp"
+        ]
+      },
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "CreateTherapyAreaDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "IC"
+          },
+          "name": {
+            "type": "string",
+            "example": "Interventional Cardiology"
+          },
+          "slug": {
+            "type": "string",
+            "example": "interventional-cardiology"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateTherapyAreaDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateSubSectionDto": {
+        "type": "object",
+        "properties": {
+          "therapyAreaId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "therapyAreaId",
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateSubSectionDto": {
+        "type": "object",
+        "properties": {
+          "therapyAreaId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateTopicDto": {
+        "type": "object",
+        "properties": {
+          "subSectionId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "subSectionId",
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateTopicDto": {
+        "type": "object",
+        "properties": {
+          "subSectionId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateContentItemDto": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "type": "string"
+          },
+          "facultyId": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "durationMinutes": {
+            "type": "number"
+          },
+          "fileUrl": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "contentData": {
+            "type": "object"
+          },
+          "publishedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "topicId",
+          "contentType",
+          "title"
+        ]
+      },
+      "UpdateContentItemDto": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "type": "string"
+          },
+          "facultyId": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "durationMinutes": {
+            "type": "number"
+          },
+          "fileUrl": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "contentData": {
+            "type": "object"
+          },
+          "publishedAt": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateFacultyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "hospital": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "photoUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "UpdateFacultyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "hospital": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "photoUrl": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateConditionDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateConditionDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreatePatientContentDto": {
+        "type": "object",
+        "properties": {
+          "conditionId": {
+            "type": "string"
+          },
+          "journeyStage": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "fileUrl": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "contentData": {
+            "type": "object"
+          },
+          "orderIndex": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "conditionId",
+          "journeyStage",
+          "contentType",
+          "title"
+        ]
+      },
+      "UpdatePatientContentDto": {
+        "type": "object",
+        "properties": {
+          "conditionId": {
+            "type": "string"
+          },
+          "journeyStage": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "fileUrl": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "contentData": {
+            "type": "object"
+          },
+          "orderIndex": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateWebinarDto": {
+        "type": "object",
+        "properties": {
+          "therapyAreaId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "scheduledAt": {
+            "type": "string"
+          },
+          "durationMinutes": {
+            "type": "number"
+          },
+          "registrationLink": {
+            "type": "string"
+          },
+          "isLive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "therapyAreaId",
+          "title",
+          "scheduledAt"
+        ]
+      },
+      "UpdateWebinarDto": {
+        "type": "object",
+        "properties": {
+          "therapyAreaId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "scheduledAt": {
+            "type": "string"
+          },
+          "durationMinutes": {
+            "type": "number"
+          },
+          "registrationLink": {
+            "type": "string"
+          },
+          "isLive": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateUserStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "PENDING",
+              "DISABLED"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "HCP",
+              "ADMIN"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      }
+    }
+  }
+}
