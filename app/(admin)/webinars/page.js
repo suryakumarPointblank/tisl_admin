@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2, Plus } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { api } from '@/lib/api-config';
 import MutationError from '@/components/MutationError';
+import FileUploadInput from '@/components/FileUploadInput';
 
 function WebinarForm({ defaultValues, onSubmit, onCancel, loading, therapyAreas }) {
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, control, formState: { errors } } = useForm({ defaultValues });
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
       <div>
@@ -66,6 +67,21 @@ function WebinarForm({ defaultValues, onSubmit, onCancel, loading, therapyAreas 
           {...register('registrationLink')}
         />
       </div>
+      <Controller
+        name="imageUrl"
+        control={control}
+        defaultValue={defaultValues?.imageUrl ?? ''}
+        render={({ field }) => (
+          <FileUploadInput
+            label="Image"
+            value={field.value}
+            onChange={field.onChange}
+            folder="webinars"
+            accept="image/*"
+            previewImage
+          />
+        )}
+      />
       <div className="flex gap-2 pt-1">
         <button type="submit" disabled={loading} className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60">
           {loading ? 'Saving…' : 'Save'}
@@ -175,7 +191,7 @@ export default function WebinarsPage() {
                   <tr key={`edit-${item.id}`}>
                     <td colSpan={5} className="bg-blue-50 px-4 py-4">
                       <WebinarForm
-                        defaultValues={{ therapyAreaId: item.therapyAreaId, title: item.title, description: item.description, scheduledAt: item.scheduledAt?.slice(0, 16), durationMinutes: item.durationMinutes, registrationLink: item.registrationLink }}
+                        defaultValues={{ therapyAreaId: item.therapyAreaId, title: item.title, description: item.description, scheduledAt: item.scheduledAt?.slice(0, 16), durationMinutes: item.durationMinutes, registrationLink: item.registrationLink, imageUrl: item.imageUrl }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}
