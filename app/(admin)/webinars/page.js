@@ -67,6 +67,14 @@ function WebinarForm({ defaultValues, onSubmit, onCancel, loading, therapyAreas 
           {...register('registrationLink')}
         />
       </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Zoom Link</label>
+        <input
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          placeholder="https://zoom.us/j/…"
+          {...register('zoomLink')}
+        />
+      </div>
       <Controller
         name="imageUrl"
         control={control}
@@ -191,7 +199,7 @@ export default function WebinarsPage() {
                   <tr key={`edit-${item.id}`}>
                     <td colSpan={5} className="bg-blue-50 px-4 py-4">
                       <WebinarForm
-                        defaultValues={{ therapyAreaId: item.therapyAreaId, title: item.title, description: item.description, scheduledAt: item.scheduledAt?.slice(0, 16), durationMinutes: item.durationMinutes, registrationLink: item.registrationLink, imageUrl: item.imageUrl }}
+                        defaultValues={{ therapyAreaId: item.therapyAreaId, title: item.title, description: item.description, scheduledAt: item.scheduledAt?.slice(0, 16), durationMinutes: item.durationMinutes, registrationLink: item.registrationLink, imageUrl: item.imageUrl, zoomLink: item.zoomLink }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}
