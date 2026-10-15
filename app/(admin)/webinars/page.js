@@ -13,6 +13,16 @@ function WebinarForm({ defaultValues, onSubmit, onCancel, loading, therapyAreas 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
       <div>
+        <label className="block text-sm font-medium text-gray-700">Event Type</label>
+        <select
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          {...register('eventType')}
+        >
+          <option value="webinar">Webinar</option>
+          <option value="workshop">Workshop</option>
+        </select>
+      </div>
+      <div>
         <label className="block text-sm font-medium text-gray-700">Therapy Area</label>
         <select
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
@@ -172,6 +182,7 @@ export default function WebinarsPage() {
           <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Title</th>
+              <th className="px-4 py-3 text-left font-medium text-gray-600">Type</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Therapy Area</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Scheduled</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Duration</th>
@@ -179,12 +190,13 @@ export default function WebinarsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {isLoading && <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>}
-            {!isLoading && items.length === 0 && <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">No webinars yet</td></tr>}
+            {isLoading && <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>}
+            {!isLoading && items.length === 0 && <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400">No webinars yet</td></tr>}
             {items.map((item) => (
               <>
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900 max-w-xs truncate">{item.title}</td>
+                  <td className="px-4 py-3 text-gray-600 capitalize">{item.eventType ?? 'webinar'}</td>
                   <td className="px-4 py-3 text-gray-600">{taMap[item.therapyAreaId] ?? '-'}</td>
                   <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{formatDate(item.scheduledAt)}</td>
                   <td className="px-4 py-3 text-gray-600">{item.durationMinutes ? `${item.durationMinutes} min` : '-'}</td>
@@ -197,9 +209,9 @@ export default function WebinarsPage() {
                 </tr>
                 {editItem?.id === item.id && (
                   <tr key={`edit-${item.id}`}>
-                    <td colSpan={5} className="bg-blue-50 px-4 py-4">
+                    <td colSpan={6} className="bg-blue-50 px-4 py-4">
                       <WebinarForm
-                        defaultValues={{ therapyAreaId: item.therapyAreaId, title: item.title, description: item.description, scheduledAt: item.scheduledAt?.slice(0, 16), durationMinutes: item.durationMinutes, registrationLink: item.registrationLink, imageUrl: item.imageUrl, zoomLink: item.zoomLink }}
+                        defaultValues={{ eventType: item.eventType, therapyAreaId: item.therapyAreaId, title: item.title, description: item.description, scheduledAt: item.scheduledAt?.slice(0, 16), durationMinutes: item.durationMinutes, registrationLink: item.registrationLink, imageUrl: item.imageUrl, zoomLink: item.zoomLink }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}
