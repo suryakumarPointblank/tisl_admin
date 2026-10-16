@@ -47,9 +47,9 @@ function EventForm({ defaultValues, onSubmit, onCancel, loading, therapyAreas })
           <input
             type="datetime-local"
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            {...register('scheduledAt', { required: 'Required' })}
+            {...register('scheduledAt')}
           />
-          {errors.scheduledAt && <p className="mt-1 text-xs text-red-600">{errors.scheduledAt.message}</p>}
+          <p className="mt-1 text-xs text-gray-400">Optional - leave blank until a date is confirmed</p>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Duration (min)</label>
@@ -133,13 +133,19 @@ export default function WebinarEventsManager({ eventType, label }) {
     },
   });
 
+  // datetime-local gives '' when left blank - the backend's @IsOptional() only
+  // skips undefined/null, not '', so strip it rather than send an empty string.
+  function cleanDto(dto) {
+    return { ...dto, eventType, scheduledAt: dto.scheduledAt || undefined };
+  }
+
   const create = useMutation({
-    mutationFn: (dto) => api.adminWebinars.webinarAdminControllerCreateV1({ ...dto, eventType }),
+    mutationFn: (dto) => api.adminWebinars.webinarAdminControllerCreateV1(cleanDto(dto)),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['admin', 'webinars'] }); setShowCreate(false); },
   });
 
   const update = useMutation({
-    mutationFn: ({ id, dto }) => api.adminWebinars.webinarAdminControllerUpdateV1(id, { ...dto, eventType }),
+    mutationFn: ({ id, dto }) => api.adminWebinars.webinarAdminControllerUpdateV1(id, cleanDto(dto)),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['admin', 'webinars'] }); setEditItem(null); },
   });
 
