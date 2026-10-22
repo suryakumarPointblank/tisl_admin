@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2, Plus, Star } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { api } from '@/lib/api-config';
 import FileUploadInput from '@/components/FileUploadInput';
@@ -204,6 +204,17 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
           </div>
         </div>
       )}
+      <div className="flex items-center gap-2">
+        <input
+          id="isTrending"
+          type="checkbox"
+          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          {...register('isTrending')}
+        />
+        <label htmlFor="isTrending" className="text-sm font-medium text-gray-700">
+          Mark as Trending (shows in homepage &quot;Trending this month&quot;)
+        </label>
+      </div>
       <div className="flex gap-2 pt-1">
         <button type="submit" disabled={loading} className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60">
           {loading ? 'Saving…' : 'Save'}
@@ -293,12 +304,13 @@ export default function ContentItemsPage() {
               <th className="px-4 py-3 text-left font-medium text-gray-600">Type</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Topic</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Faculty</th>
+              <th className="px-4 py-3 text-left font-medium text-gray-600">Trending</th>
               <th className="px-4 py-3 text-left font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {isLoading && <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>}
-            {!isLoading && items.length === 0 && <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">No content items yet</td></tr>}
+            {isLoading && <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400">Loading…</td></tr>}
+            {!isLoading && items.length === 0 && <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400">No content items yet</td></tr>}
             {items.map((item) => (
               <>
                 <tr key={item.id} className="hover:bg-gray-50">
@@ -309,6 +321,15 @@ export default function ContentItemsPage() {
                   <td className="px-4 py-3 text-gray-600">{topicMap[item.topicId] ?? '-'}</td>
                   <td className="px-4 py-3 text-gray-600">{item.facultyId ? (facultyMap[item.facultyId] ?? '-') : '-'}</td>
                   <td className="px-4 py-3">
+                    <button
+                      onClick={() => update.mutate({ id: item.id, dto: { isTrending: !item.isTrending } })}
+                      title={item.isTrending ? 'Remove from Trending' : 'Mark as Trending'}
+                      className={item.isTrending ? 'text-amber-500 hover:text-amber-600' : 'text-gray-300 hover:text-amber-500'}
+                    >
+                      <Star size={16} fill={item.isTrending ? 'currentColor' : 'none'} />
+                    </button>
+                  </td>
+                  <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setEditItem(item)} className="text-gray-400 hover:text-blue-600"><Pencil size={14} /></button>
                       <button onClick={() => { if (confirm('Delete this content item?')) remove.mutate(item.id); }} className="text-gray-400 hover:text-red-600"><Trash2 size={14} /></button>
@@ -317,9 +338,9 @@ export default function ContentItemsPage() {
                 </tr>
                 {editItem?.id === item.id && (
                   <tr key={`edit-${item.id}`}>
-                    <td colSpan={5} className="bg-blue-50 px-4 py-4">
+                    <td colSpan={6} className="bg-blue-50 px-4 py-4">
                       <ContentItemForm
-                        defaultValues={{ topicId: item.topicId, facultyId: item.facultyId, contentType: item.contentType, title: item.title, description: item.description, durationMinutes: item.durationMinutes, fileUrl: item.fileUrl, thumbnailUrl: item.thumbnailUrl, contentData: item.contentData, articleImageUrl: item.contentData?.imageUrl ?? '', articleUrl: item.contentData?.articleUrl ?? '', slideTotalSlides: item.contentData?.totalSlides ?? '', slideFileSizeMb: item.contentData?.fileSizeMb ?? '', slideFormat: item.contentData?.format ?? '' }}
+                        defaultValues={{ topicId: item.topicId, facultyId: item.facultyId, contentType: item.contentType, title: item.title, description: item.description, durationMinutes: item.durationMinutes, fileUrl: item.fileUrl, thumbnailUrl: item.thumbnailUrl, contentData: item.contentData, isTrending: item.isTrending, articleImageUrl: item.contentData?.imageUrl ?? '', articleUrl: item.contentData?.articleUrl ?? '', slideTotalSlides: item.contentData?.totalSlides ?? '', slideFileSizeMb: item.contentData?.fileSizeMb ?? '', slideFormat: item.contentData?.format ?? '' }}
                         onSubmit={(dto) => update.mutate({ id: item.id, dto })}
                         onCancel={() => setEditItem(null)}
                         loading={update.isPending}
