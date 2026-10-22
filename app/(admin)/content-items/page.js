@@ -27,6 +27,7 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
         ...(defaultValues?.contentData ?? {}),
         imageUrl: raw.articleImageUrl || undefined,
         articleUrl: raw.articleUrl || undefined,
+        hidePdfPreview: !!raw.hidePdfPreview,
       };
     }
     if (isSlide) {
@@ -39,6 +40,7 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
     }
     delete dto.articleImageUrl;
     delete dto.articleUrl;
+    delete dto.hidePdfPreview;
     delete dto.slideTotalSlides;
     delete dto.slideFileSizeMb;
     delete dto.slideFormat;
@@ -166,6 +168,18 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
               defaultValue={defaultValues?.contentData?.articleUrl ?? ''}
               {...register('articleUrl')}
             />
+          </div>
+          <div className="col-span-2 flex items-center gap-2">
+            <input
+              id="hidePdfPreview"
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              defaultChecked={defaultValues?.contentData?.hidePdfPreview ?? false}
+              {...register('hidePdfPreview')}
+            />
+            <label htmlFor="hidePdfPreview" className="text-sm font-medium text-gray-700">
+              Hide PDF preview on the page (only show the Read Full Article link)
+            </label>
           </div>
         </div>
       )}
