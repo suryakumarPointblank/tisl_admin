@@ -19,6 +19,11 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
   const contentType = watch('contentType');
   const isArticle = contentType === 'ARTICLE_SUMMARY';
   const isSlide = contentType === 'SLIDE_DECK';
+  // Not a plain form field - react-hook-form's register/Controller model one
+  // value per field, not a variable-length list - so this is managed as its
+  // own state and merged into contentData on submit, same as contentData's
+  // other already-free-form keys.
+  const [galleryImages, setGalleryImages] = useState(defaultValues?.contentData?.galleryImages ?? []);
 
   function handleFormSubmit(raw) {
     const dto = { ...raw };
@@ -28,6 +33,7 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
         imageUrl: raw.articleImageUrl || undefined,
         articleUrl: raw.articleUrl || undefined,
         hidePdfPreview: !!raw.hidePdfPreview,
+        galleryImages: galleryImages.filter(Boolean),
       };
     }
     if (isSlide) {
@@ -180,6 +186,38 @@ function ContentItemForm({ defaultValues, onSubmit, onCancel, loading, topics, f
             <label htmlFor="hidePdfPreview" className="text-sm font-medium text-gray-700">
               Hide PDF preview on the page (only show the Read Full Article link)
             </label>
+          </div>
+          <div className="col-span-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Gallery Images (shown as a small carousel instead of one hero image, if any are set here)
+            </label>
+            <div className="mt-1 grid grid-cols-3 gap-3">
+              {galleryImages.map((url, i) => (
+                <div key={i} className="relative">
+                  <FileUploadInput
+                    value={url}
+                    onChange={(v) => setGalleryImages((imgs) => imgs.map((img, j) => (j === i ? v : img)))}
+                    folder="content/images"
+                    accept="image/*"
+                    previewImage
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setGalleryImages((imgs) => imgs.filter((_, j) => j !== i))}
+                    className="absolute right-0 top-0 text-xs text-red-500 hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setGalleryImages((imgs) => [...imgs, ''])}
+              className="mt-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+            >
+              + Add gallery image
+            </button>
           </div>
         </div>
       )}
